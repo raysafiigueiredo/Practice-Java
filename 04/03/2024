@@ -1,3 +1,7 @@
+
+Questao: Escreva um programa Java que gere a sequência de Fibonacci até um número fornecido pelo usuário.
+.......................................................................................................................................................
+
 import java.util.Scanner;
 
 public class Fibonacci {
