@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+public class ConversorMoedas {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Digite o valor a ser convertido:");
+        double valor = scanner.nextDouble();
+        
+        System.out.println("Digite a taxa de câmbio:");
+        double taxaCambio = scanner.nextDouble();
+        
+        double valorConvertido = converterMoeda(valor, taxaCambio);
+        
+        System.out.println("O valor convertido é: " + valorConvertido);
+        
+        scanner.close();
+    }
+    
+    public static double converterMoeda(double valor, double taxaCambio) {
+        return valor * taxaCambio;
+    }
+}
