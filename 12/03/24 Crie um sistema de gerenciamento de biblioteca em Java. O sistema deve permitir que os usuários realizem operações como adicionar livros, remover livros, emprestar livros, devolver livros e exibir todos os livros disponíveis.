@@ -1,0 +1,153 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Livro {
+    private String titulo;
+    private String autor;
+    private boolean disponivel;
+
+    public Livro(String titulo, String autor) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.disponivel = true; // novo livro é sempre disponível
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
+    }
+
+    @Override
+    public String toString() {
+        return "Livro{" +
+                "titulo='" + titulo + '\'' +
+                ", autor='" + autor + '\'' +
+                ", disponivel=" + disponivel +
+                '}';
+    }
+}
+
+class Biblioteca {
+    private ArrayList<Livro> livros;
+
+    public Biblioteca() {
+        livros = new ArrayList<>();
+    }
+
+    public void adicionarLivro(Livro livro) {
+        livros.add(livro);
+    }
+
+    public void removerLivro(Livro livro) {
+        livros.remove(livro);
+    }
+
+    public void emprestarLivro(Livro livro) {
+        if (livro.isDisponivel()) {
+            livro.setDisponivel(false);
+            System.out.println("Livro emprestado com sucesso!");
+        } else {
+            System.out.println("Este livro já está emprestado.");
+        }
+    }
+
+    public void devolverLivro(Livro livro) {
+        if (!livro.isDisponivel()) {
+            livro.setDisponivel(true);
+            System.out.println("Livro devolvido com sucesso!");
+        } else {
+            System.out.println("Este livro já está na biblioteca.");
+        }
+    }
+
+    public void exibirLivrosDisponiveis() {
+        System.out.println("Livros disponíveis na biblioteca:");
+        for (Livro livro : livros) {
+            if (livro.isDisponivel()) {
+                System.out.println(livro);
+            }
+        }
+    }
+}
+
+public class GerenciadorBiblioteca {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Biblioteca biblioteca = new Biblioteca();
+
+        while (true) {
+            System.out.println("\nEscolha uma opção:");
+            System.out.println("1. Adicionar livro");
+            System.out.println("2. Remover livro");
+            System.out.println("3. Emprestar livro");
+            System.out.println("4. Devolver livro");
+            System.out.println("5. Exibir livros disponíveis");
+            System.out.println("6. Sair");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // limpa o buffer
+
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o título do livro:");
+                    String titulo = scanner.nextLine();
+                    System.out.println("Digite o autor do livro:");
+                    String autor = scanner.nextLine();
+                    biblioteca.adicionarLivro(new Livro(titulo, autor));
+                    System.out.println("Livro adicionado com sucesso!");
+                    break;
+                case 2:
+                    System.out.println("Digite o título do livro a ser removido:");
+                    String tituloRemover = scanner.nextLine();
+                    for (Livro livro : biblioteca.livros) {
+                        if (livro.getTitulo().equals(tituloRemover)) {
+                            biblioteca.removerLivro(livro);
+                            System.out.println("Livro removido com sucesso!");
+                            break;
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Digite o título do livro a ser emprestado:");
+                    String tituloEmprestar = scanner.nextLine();
+                    for (Livro livro : biblioteca.livros) {
+                        if (livro.getTitulo().equals(tituloEmprestar)) {
+                            biblioteca.emprestarLivro(livro);
+                            break;
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o título do livro a ser devolvido:");
+                    String tituloDevolver = scanner.nextLine();
+                    for (Livro livro : biblioteca.livros) {
+                        if (livro.getTitulo().equals(tituloDevolver)) {
+                            biblioteca.devolverLivro(livro);
+                            break;
+                        }
+                    }
+                    break;
+                case 5:
+                    biblioteca.exibirLivrosDisponiveis();
+                    break;
+                case 6:
+                    System.out.println("Saindo do programa...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
