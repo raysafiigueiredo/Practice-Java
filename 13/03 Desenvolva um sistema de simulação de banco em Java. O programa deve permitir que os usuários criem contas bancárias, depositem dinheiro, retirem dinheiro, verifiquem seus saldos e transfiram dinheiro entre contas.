@@ -1,0 +1,144 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class ContaBancaria {
+    private String titular;
+    private double saldo;
+
+    public ContaBancaria(String titular) {
+        this.titular = titular;
+        this.saldo = 0.0; // novo saldo é zero
+    }
+
+    public String getTitular() {
+        return titular;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void depositar(double valor) {
+        saldo += valor;
+        System.out.println("Depósito de " + valor + " realizado com sucesso.");
+    }
+
+    public void sacar(double valor) {
+        if (valor <= saldo) {
+            saldo -= valor;
+            System.out.println("Saque de " + valor + " realizado com sucesso.");
+        } else {
+            System.out.println("Saldo insuficiente para realizar o saque.");
+        }
+    }
+
+    public void transferir(ContaBancaria destino, double valor) {
+        if (valor <= saldo) {
+            saldo -= valor;
+            destino.depositar(valor);
+            System.out.println("Transferência de " + valor + " realizada com sucesso para " + destino.getTitular());
+        } else {
+            System.out.println("Saldo insuficiente para realizar a transferência.");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ContaBancaria{" +
+                "titular='" + titular + '\'' +
+                ", saldo=" + saldo +
+                '}';
+    }
+}
+
+public class SimuladorBanco {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<ContaBancaria> contas = new ArrayList<>();
+
+        while (true) {
+            System.out.println("\nEscolha uma opção:");
+            System.out.println("1. Criar nova conta");
+            System.out.println("2. Fazer depósito");
+            System.out.println("3. Fazer saque");
+            System.out.println("4. Fazer transferência");
+            System.out.println("5. Visualizar informações da conta");
+            System.out.println("6. Sair");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // limpa o buffer
+
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o nome do titular da conta:");
+                    String titular = scanner.nextLine();
+                    contas.add(new ContaBancaria(titular));
+                    System.out.println("Conta criada com sucesso!");
+                    break;
+                case 2:
+                    System.out.println("Digite o nome do titular da conta:");
+                    String nomeDeposito = scanner.nextLine();
+                    System.out.println("Digite o valor do depósito:");
+                    double valorDeposito = scanner.nextDouble();
+                    for (ContaBancaria conta : contas) {
+                        if (conta.getTitular().equals(nomeDeposito)) {
+                            conta.depositar(valorDeposito);
+                            break;
+                        }
+                    }
+                    break;
+                case 3:
+                    System.out.println("Digite o nome do titular da conta:");
+                    String nomeSaque = scanner.nextLine();
+                    System.out.println("Digite o valor do saque:");
+                    double valorSaque = scanner.nextDouble();
+                    for (ContaBancaria conta : contas) {
+                        if (conta.getTitular().equals(nomeSaque)) {
+                            conta.sacar(valorSaque);
+                            break;
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Digite o nome do titular da conta de origem:");
+                    String nomeOrigem = scanner.nextLine();
+                    System.out.println("Digite o nome do titular da conta de destino:");
+                    String nomeDestino = scanner.nextLine();
+                    System.out.println("Digite o valor da transferência:");
+                    double valorTransferencia = scanner.nextDouble();
+                    ContaBancaria origem = null;
+                    ContaBancaria destino = null;
+                    for (ContaBancaria conta : contas) {
+                        if (conta.getTitular().equals(nomeOrigem)) {
+                            origem = conta;
+                        }
+                        if (conta.getTitular().equals(nomeDestino)) {
+                            destino = conta;
+                        }
+                    }
+                    if (origem != null && destino != null) {
+                        origem.transferir(destino, valorTransferencia);
+                    } else {
+                        System.out.println("Conta de origem ou conta de destino não encontrada.");
+                    }
+                    break;
+                case 5:
+                    System.out.println("Digite o nome do titular da conta:");
+                    String nomeConta = scanner.nextLine();
+                    for (ContaBancaria conta : contas) {
+                        if (conta.getTitular().equals(nomeConta)) {
+                            System.out.println(conta);
+                            break;
+                        }
+                    }
+                    break;
+                case 6:
+                    System.out.println("Saindo do programa...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
