@@ -1,0 +1,139 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Passageiro {
+    private String nome;
+
+    public Passageiro(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Passageiro{" +
+                "nome='" + nome + '\'' +
+                '}';
+    }
+}
+
+class Voo {
+    private String numero;
+    private ArrayList<Passageiro> passageiros;
+
+    public Voo(String numero) {
+        this.numero = numero;
+        this.passageiros = new ArrayList<>();
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public boolean adicionarPassageiro(Passageiro passageiro) {
+        if (passageiros.size() < 10) {
+            passageiros.add(passageiro);
+            return true;
+        }
+        return false; // limite de passageiros atingido
+    }
+
+    public boolean removerPassageiro(Passageiro passageiro) {
+        return passageiros.remove(passageiro);
+    }
+
+    public void exibirPassageiros() {
+        System.out.println("Passageiros do voo " + numero + ":");
+        for (Passageiro passageiro : passageiros) {
+            System.out.println(passageiro);
+        }
+    }
+}
+
+class SistemaReservas {
+    private ArrayList<Voo> voos;
+
+    public SistemaReservas() {
+        this.voos = new ArrayList<>();
+    }
+
+    public void adicionarVoo(Voo voo) {
+        voos.add(voo);
+    }
+
+    public void exibirVoos() {
+        System.out.println("Voos disponíveis:");
+        for (Voo voo : voos) {
+            System.out.println(voo.getNumero());
+        }
+    }
+}
+
+public class SistemaReservasAereas {
+    public static void main(String[] args) {
+        SistemaReservas sistema = new SistemaReservas();
+        sistema.adicionarVoo(new Voo("AA123"));
+        sistema.adicionarVoo(new Voo("BB456"));
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nEscolha uma opção:");
+            System.out.println("1. Exibir voos disponíveis");
+            System.out.println("2. Selecionar voo e fazer reserva");
+            System.out.println("3. Exibir passageiros de um voo");
+            System.out.println("4. Sair");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // limpa o buffer
+
+            switch (opcao) {
+                case 1:
+                    sistema.exibirVoos();
+                    break;
+                case 2:
+                    System.out.println("Digite o número do voo:");
+                    String numeroVoo = scanner.nextLine();
+                    Voo vooSelecionado = null;
+                    for (Voo voo : sistema.voos) {
+                        if (voo.getNumero().equals(numeroVoo)) {
+                            vooSelecionado = voo;
+                            break;
+                        }
+                    }
+                    if (vooSelecionado != null) {
+                        System.out.println("Digite o nome do passageiro:");
+                        String nomePassageiro = scanner.nextLine();
+                        Passageiro passageiro = new Passageiro(nomePassageiro);
+                        if (vooSelecionado.adicionarPassageiro(passageiro)) {
+                            System.out.println("Reserva feita com sucesso para " + passageiro.getNome() + " no voo " + vooSelecionado.getNumero());
+                        } else {
+                            System.out.println("O voo selecionado está lotado.");
+                        }
+                    } else {
+                        System.out.println("Voo não encontrado.");
+                    }
+                    break;
+                case 3:
+                    System.out.println("Digite o número do voo:");
+                    String numeroVooExibir = scanner.nextLine();
+                    for (Voo voo : sistema.voos) {
+                        if (voo.getNumero().equals(numeroVooExibir)) {
+                            voo.exibirPassageiros();
+                            break;
+                        }
+                    }
+                    break;
+                case 4:
+                    System.out.println("Saindo do programa...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
