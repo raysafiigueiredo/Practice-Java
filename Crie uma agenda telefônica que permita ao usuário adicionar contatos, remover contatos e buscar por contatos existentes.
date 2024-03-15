@@ -1,0 +1,90 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class AgendaTelefonica {
+    private Map<String, String> contatos;
+
+    public AgendaTelefonica() {
+        contatos = new HashMap<>();
+    }
+
+    public void adicionarContato(String nome, String telefone) {
+        contatos.put(nome, telefone);
+        System.out.println("Contato adicionado: " + nome + ", " + telefone);
+    }
+
+    public void removerContato(String nome) {
+        if (contatos.containsKey(nome)) {
+            contatos.remove(nome);
+            System.out.println("Contato removido: " + nome);
+        } else {
+            System.out.println("Contato não encontrado.");
+        }
+    }
+
+    public void buscarContato(String nome) {
+        if (contatos.containsKey(nome)) {
+            System.out.println("Número de telefone para " + nome + ": " + contatos.get(nome));
+        } else {
+            System.out.println("Contato não encontrado.");
+        }
+    }
+
+    public void exibirContatos() {
+        if (contatos.isEmpty()) {
+            System.out.println("Agenda telefônica vazia.");
+        } else {
+            System.out.println("Lista de contatos:");
+            for (String nome : contatos.keySet()) {
+                System.out.println(nome + ": " + contatos.get(nome));
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        AgendaTelefonica agenda = new AgendaTelefonica();
+
+        while (true) {
+            System.out.println("\nEscolha uma opção:");
+            System.out.println("1. Adicionar contato");
+            System.out.println("2. Remover contato");
+            System.out.println("3. Buscar contato");
+            System.out.println("4. Exibir todos os contatos");
+            System.out.println("5. Sair");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Nome do contato: ");
+                    String nome = scanner.nextLine();
+                    System.out.print("Número de telefone: ");
+                    String telefone = scanner.nextLine();
+                    agenda.adicionarContato(nome, telefone);
+                    break;
+                case 2:
+                    System.out.print("Nome do contato a ser removido: ");
+                    String nomeRemover = scanner.nextLine();
+                    agenda.removerContato(nomeRemover);
+                    break;
+                case 3:
+                    System.out.print("Nome do contato a ser buscado: ");
+                    String nomeBuscar = scanner.nextLine();
+                    agenda.buscarContato(nomeBuscar);
+                    break;
+                case 4:
+                    agenda.exibirContatos();
+                    break;
+                case 5:
+                    System.out.println("Saindo do programa...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
