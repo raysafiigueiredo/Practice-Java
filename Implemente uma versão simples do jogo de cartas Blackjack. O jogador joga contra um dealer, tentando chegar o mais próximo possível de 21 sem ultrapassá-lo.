@@ -1,0 +1,175 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Card {
+    private final String suit;
+    private final String rank;
+
+    public Card(String suit, String rank) {
+        this.suit = suit;
+        this.rank = rank;
+    }
+
+    public String getSuit() {
+        return suit;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    @Override
+    public String toString() {
+        return rank + " of " + suit;
+    }
+
+    public int getValue() {
+        switch (rank) {
+            case "Ace":
+                return 11;
+            case "2":
+                return 2;
+            case "3":
+                return 3;
+            case "4":
+                return 4;
+            case "5":
+                return 5;
+            case "6":
+                return 6;
+            case "7":
+                return 7;
+            case "8":
+                return 8;
+            case "9":
+                return 9;
+            default:
+                return 10;
+        }
+    }
+}
+
+class Deck {
+    private final List<Card> cards;
+
+    public Deck() {
+        cards = new ArrayList<>();
+        String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"};
+
+        for (String suit : suits) {
+            for (String rank : ranks) {
+                cards.add(new Card(suit, rank));
+            }
+        }
+
+        Collections.shuffle(cards);
+    }
+
+    public Card dealCard() {
+        if (cards.isEmpty()) {
+            System.out.println("Deck is empty. No more cards to deal.");
+            return null;
+        }
+        return cards.remove(cards.size() - 1);
+    }
+}
+
+class Hand {
+    private final List<Card> cards;
+
+    public Hand() {
+        cards = new ArrayList<>();
+    }
+
+    public void addCard(Card card) {
+        cards.add(card);
+    }
+
+    public int getValue() {
+        int value = 0;
+        int numAces = 0;
+
+        for (Card card : cards) {
+            value += card.getValue();
+            if (card.getRank().equals("Ace")) {
+                numAces++;
+            }
+        }
+
+        while (value > 21 && numAces > 0) {
+            value -= 10;
+            numAces--;
+        }
+
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder handString = new StringBuilder();
+        for (Card card : cards) {
+            handString.append(card).append(", ");
+        }
+        return handString.toString();
+    }
+}
+
+public class Blackjack {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Deck deck = new Deck();
+
+        Hand playerHand = new Hand();
+        Hand dealerHand = new Hand();
+
+        playerHand.addCard(deck.dealCard());
+        playerHand.addCard(deck.dealCard());
+
+        dealerHand.addCard(deck.dealCard());
+        dealerHand.addCard(deck.dealCard());
+
+        System.out.println("Your hand: " + playerHand);
+        System.out.println("Dealer's hand: " + dealerHand.getCards().get(0) + ", [Hidden Card]");
+
+        // Player's turn
+        while (playerHand.getValue() < 21) {
+            System.out.println("Hit or Stand? (h/s)");
+            String choice = scanner.nextLine();
+            if (choice.equalsIgnoreCase("h")) {
+                Card newCard = deck.dealCard();
+                playerHand.addCard(newCard);
+                System.out.println("You drew: " + newCard);
+                System.out.println("Your hand: " + playerHand);
+            } else if (choice.equalsIgnoreCase("s")) {
+                break;
+            } else {
+                System.out.println("Invalid choice. Please enter 'h' for Hit or 's' for Stand.");
+            }
+        }
+
+        if (playerHand.getValue() > 21) {
+            System.out.println("You busted! Dealer wins.");
+            return;
+        }
+
+        // Dealer's turn
+        System.out.println("Dealer's hand: " + dealerHand);
+        while (dealerHand.getValue() < 17) {
+            Card newCard = deck.dealCard();
+            dealerHand.addCard(newCard);
+            System.out.println("Dealer drew: " + newCard);
+            System.out.println("Dealer's hand: " + dealerHand);
+        }
+
+        if (dealerHand.getValue() > 21 || playerHand.getValue() > dealerHand.getValue()) {
+            System.out.println("You win!");
+        } else if (dealerHand.getValue() > playerHand.getValue()) {
+            System.out.println("Dealer wins.");
+        } else {
+            System.out.println("It's a tie!");
+        }
+    }
+}
