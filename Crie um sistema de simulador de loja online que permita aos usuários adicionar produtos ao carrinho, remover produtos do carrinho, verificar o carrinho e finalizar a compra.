@@ -1,0 +1,114 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Produto {
+    private String nome;
+    private double preco;
+
+    public Produto(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+}
+
+class Carrinho {
+    private List<Produto> itens;
+
+    public Carrinho() {
+        itens = new ArrayList<>();
+    }
+
+    public void adicionarItem(Produto produto) {
+        itens.add(produto);
+        System.out.println(produto.getNome() + " adicionado ao carrinho.");
+    }
+
+    public void removerItem(Produto produto) {
+        if (itens.remove(produto)) {
+            System.out.println(produto.getNome() + " removido do carrinho.");
+        } else {
+            System.out.println("Produto não encontrado no carrinho.");
+        }
+    }
+
+    public void exibirCarrinho() {
+        if (itens.isEmpty()) {
+            System.out.println("Carrinho vazio.");
+        } else {
+            System.out.println("Carrinho:");
+            double total = 0;
+            for (Produto produto : itens) {
+                System.out.println(produto.getNome() + " - R$" + produto.getPreco());
+                total += produto.getPreco();
+            }
+            System.out.println("Total: R$" + total);
+        }
+    }
+
+    public void finalizarCompra() {
+        System.out.println("Compra finalizada. Obrigado!");
+        itens.clear();
+    }
+}
+
+public class SimuladorLojaOnline {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Carrinho carrinho = new Carrinho();
+
+        while (true) {
+            System.out.println("\nEscolha uma opção:");
+            System.out.println("1. Adicionar produto ao carrinho");
+            System.out.println("2. Remover produto do carrinho");
+            System.out.println("3. Exibir carrinho");
+            System.out.println("4. Finalizar compra");
+            System.out.println("5. Sair");
+
+            int opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Digite o nome do produto: ");
+                    String nomeProduto = scanner.nextLine();
+                    System.out.print("Digite o preço do produto: ");
+                    double precoProduto = scanner.nextDouble();
+                    carrinho.adicionarItem(new Produto(nomeProduto, precoProduto));
+                    break;
+                case 2:
+                    System.out.print("Digite o nome do produto a ser removido: ");
+                    String nomeRemover = scanner.nextLine();
+                    Produto produtoRemover = carrinho.itens.stream()
+                            .filter(p -> p.getNome().equalsIgnoreCase(nomeRemover))
+                            .findFirst().orElse(null);
+                    if (produtoRemover != null) {
+                        carrinho.removerItem(produtoRemover);
+                    } else {
+                        System.out.println("Produto não encontrado no carrinho.");
+                    }
+                    break;
+                case 3:
+                    carrinho.exibirCarrinho();
+                    break;
+                case 4:
+                    carrinho.finalizarCompra();
+                    break;
+                case 5:
+                    System.out.println("Saindo do programa...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+}
