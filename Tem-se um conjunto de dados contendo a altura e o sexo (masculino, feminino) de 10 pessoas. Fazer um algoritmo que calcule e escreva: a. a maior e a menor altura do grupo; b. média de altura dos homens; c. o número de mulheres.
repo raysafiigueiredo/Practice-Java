@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class AnaliseAltura {
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        
+        int sexo, qtMulheres = 0, qtHomens = 0;
+        float altura, somaAlturaHomens = 0, mediaHomens, maior = 0, menor = 10;
+        
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Digite o sexo (1-Mulher, 2-Homem):");
+            sexo = entrada.nextInt();
+            
+            System.out.println("Digite a altura:");
+            altura = entrada.nextFloat();
+            
+            if (sexo == 1) {
+                qtMulheres++;
+            } else if (sexo == 2) {
+                qtHomens++;
+                somaAlturaHomens += altura;
+            } else {
+                System.out.println("Número inválido!");
+                i--;  // Decrementa o contador para repetir a entrada
+                continue;  // Volta para o início do laço
+            }
+            
+            if (altura > maior) {
+                maior = altura;
+            }
+            
+            if (altura < menor) {
+                menor = altura;
+            }
+        }
+        
+        mediaHomens = somaAlturaHomens / qtHomens;
+        
+        System.out.println("a. Maior altura: " + maior);
+        System.out.println("   Menor altura: " + menor);
+        System.out.println("b. Média de altura dos homens: " + mediaHomens);
+        System.out.println("c. Número de mulheres: " + qtMulheres);
+        
+        entrada.close();
+    }
+}
