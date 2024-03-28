@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class VerificaVelocidade {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Digite a velocidade do carro em km/h: ");
+        int velocidade = scanner.nextInt();
+
+        if (velocidade > 80) {
+            int quilometrosAcima = velocidade - 80;
+            double valorMulta = quilometrosAcima * 5.0;
+
+            System.out.printf("Você foi multado! Velocidade acima do permitido em %d km/h.\n", quilometrosAcima);
+            System.out.printf("Valor da multa: R$ %.2f\n", valorMulta);
+        } else {
+            System.out.println("Velocidade dentro do limite permitido. Dirija com segurança!");
+        }
+
+        scanner.close();
+    }
+}
