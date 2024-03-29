@@ -1,0 +1,24 @@
+import java.util.Scanner;
+
+public class ContagemPatas {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Informe a quantidade de galinhas: ");
+        int galinhas = sc.nextInt();
+
+        System.out.print("Informe a quantidade de vacas: ");
+        int vacas = sc.nextInt();
+
+        System.out.print("Informe a quantidade de porcos: ");
+        int porcos = sc.nextInt();
+
+        int totalPatas = (galinhas * 2) + (vacas * 4) + (porcos * 4);
+        int totalAnimais = galinhas + vacas + porcos;
+
+        System.out.println("Quantidade de animais: " + totalAnimais);
+        System.out.println("Quantidade de patas: " + totalPatas);
+
+        sc.close();
+    }
+}
