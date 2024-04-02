@@ -1,0 +1,44 @@
+import java.util.Scanner;
+
+public class CorridaAutomoveis {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Informe o número de voltas:");
+        int N = sc.nextInt();
+
+        double[] tempos = new double[N];
+
+        // Ler os tempos das N voltas
+        for (int i = 0; i < N; i++) {
+            System.out.printf("Informe o tempo da volta %d: ", i + 1);
+            tempos[i] = sc.nextDouble();
+        }
+
+        // Calcular e imprimir o melhor tempo e a volta em que ocorreu
+        double melhorTempo = tempos[0];
+        int voltaMelhorTempo = 1;
+
+        for (int i = 1; i < N; i++) {
+            if (tempos[i] < melhorTempo) {
+                melhorTempo = tempos[i];
+                voltaMelhorTempo = i + 1;
+            }
+        }
+
+        System.out.printf("Melhor tempo: %.2f segundos\n", melhorTempo);
+        System.out.printf("Volta em que o melhor tempo ocorreu: %d\n", voltaMelhorTempo);
+
+        // Calcular e imprimir o tempo médio das N voltas
+        double somaTempos = 0;
+        for (double tempo : tempos) {
+            somaTempos += tempo;
+        }
+
+        double tempoMedio = somaTempos / N;
+        System.out.printf("Tempo médio das %d voltas: %.2f segundos\n", N, tempoMedio);
+
+        sc.close();
+    }
+}
