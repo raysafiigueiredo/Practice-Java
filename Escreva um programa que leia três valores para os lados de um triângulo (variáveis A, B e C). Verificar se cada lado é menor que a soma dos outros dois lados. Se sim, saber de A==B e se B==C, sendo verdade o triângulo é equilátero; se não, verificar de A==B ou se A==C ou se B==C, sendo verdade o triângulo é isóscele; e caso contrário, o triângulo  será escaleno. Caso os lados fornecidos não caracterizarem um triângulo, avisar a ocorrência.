@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+public class VerificaTriangulo {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Informe o valor do lado A:");
+        double A = sc.nextDouble();
+
+        System.out.println("Informe o valor do lado B:");
+        double B = sc.nextDouble();
+
+        System.out.println("Informe o valor do lado C:");
+        double C = sc.nextDouble();
+
+        if (A < B + C && B < A + C && C < A + B) {
+            if (A == B && B == C) {
+                System.out.println("O triângulo é equilátero.");
+            } else if (A == B || A == C || B == C) {
+                System.out.println("O triângulo é isósceles.");
+            } else {
+                System.out.println("O triângulo é escaleno.");
+            }
+        } else {
+            System.out.println("Os lados fornecidos não formam um triângulo.");
+        }
+
+        sc.close();
+    }
+}
