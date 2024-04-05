@@ -1,0 +1,82 @@
+
+Seu programa Java deverá exibir uma saída parecida com:
+
+1.a nota do 1.o aluno: 8
+2.a nota do 1.o aluno: 7
+3.a nota do 1.o aluno: 4
+ 
+1.a nota do 2.o aluno: 9
+2.a nota do 2.o aluno: 6
+3.a nota do 2.o aluno: 8
+ 
+1.a nota do 3.o aluno: 7
+2.a nota do 3.o aluno: 9
+3.a nota do 3.o aluno: 3
+ 
+1.a nota do 4.o aluno: 5
+2.a nota do 4.o aluno: 7
+3.a nota do 4.o aluno: 9
+ 
+1.a nota do 5.o aluno: 10
+2.a nota do 5.o aluno: 8
+3.a nota do 5.o aluno: 9
+ 
+ 
+Valores na matriz
+ 
+  8,0   7,0   4,0 
+  9,0   6,0   8,0 
+  7,0   9,0   3,0 
+  5,0   7,0   9,0 
+ 10,0   8,0   9,0 
+ 
+Média do aluno 1: 6.3
+Média do aluno 2: 7.6
+Média do aluno 3: 6.3
+Média do aluno 4: 7.0
+Média do aluno 5: 9.0
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+import java.util.Scanner;
+
+public class MediaAlunos {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Criando a matriz para armazenar as notas
+        double[][] notas = new double[5][3];
+
+        // Solicitando e armazenando as notas dos alunos
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print((j + 1) + ".a nota do " + (i + 1) + ".o aluno: ");
+                notas[i][j] = sc.nextDouble();
+            }
+        }
+
+        sc.close();
+
+        System.out.println("\nValores na matriz\n");
+
+        // Exibindo a matriz de notas
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(notas[i][j] + "   ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\nMédias dos alunos:\n");
+
+        // Calculando e exibindo a média de cada aluno
+        for (int i = 0; i < 5; i++) {
+            double soma = 0;
+            for (int j = 0; j < 3; j++) {
+                soma += notas[i][j];
+            }
+            double media = soma / 3;
+            System.out.printf("Média do aluno %d: %.1f\n", (i + 1), media);
+        }
+    }
+}
