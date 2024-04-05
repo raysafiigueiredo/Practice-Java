@@ -1,0 +1,49 @@
+
+a) O maior valor;
+b) A média dos valores;
+c) Quais valores estão acima da média.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import java.util.Scanner;
+
+public class AnaliseValores {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Criando o vetor para armazenar os valores
+        double[] valores = new double[10];
+
+        // Solicitando e armazenando os valores no vetor
+        for (int i = 0; i < 10; i++) {
+            System.out.print("Digite o " + (i + 1) + "º valor: ");
+            valores[i] = sc.nextDouble();
+        }
+
+        sc.close();
+
+        // a) Encontrando o maior valor
+        double maior = valores[0];
+        for (double valor : valores) {
+            if (valor > maior) {
+                maior = valor;
+            }
+        }
+        System.out.printf("\nO maior valor é: %.2f\n", maior);
+
+        // b) Calculando a média dos valores
+        double soma = 0;
+        for (double valor : valores) {
+            soma += valor;
+        }
+        double media = soma / 10;
+        System.out.printf("A média dos valores é: %.2f\n", media);
+
+        // c) Exibindo quais valores estão acima da média
+        System.out.println("Valores acima da média:");
+        for (double valor : valores) {
+            if (valor > media) {
+                System.out.printf("%.2f  ", valor);
+            }
+        }
+    }
+}
