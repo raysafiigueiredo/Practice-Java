@@ -1,0 +1,35 @@
+import java.util.Scanner;
+
+public class LocadoraCharretes {
+    public static void main(String[] args) {
+        // Cria um objeto Scanner para receber a entrada do usuário
+        Scanner scanner = new Scanner(System.in);
+        
+        // Solicita a quantidade de horas que a charrete foi usada
+        System.out.println("Quantidade de horas que a charrete foi usada:");
+        int horasUsadas = scanner.nextInt();
+        
+        // Fecha o scanner para evitar vazamento de recursos
+        scanner.close();
+        
+        // Calcula o valor total a ser pago
+        double valorTotal = calcularValorTotal(horasUsadas);
+        
+        // Exibe o valor total a ser pago pelo cliente
+        System.out.println("Valor total a ser pago: R$" + valorTotal);
+    }
+    
+    // Método para calcular o valor total a ser pago com base na quantidade de horas usadas
+    public static double calcularValorTotal(int horasUsadas) {
+        // Calcula o número de períodos de 3 horas
+        int periodosDeTresHoras = horasUsadas / 3;
+        
+        // Calcula o número de horas adicionais (menos de 3 horas)
+        int horasExtras = horasUsadas % 3;
+        
+        // Calcula o valor total a ser pago
+        double valorTotal = (periodosDeTresHoras * 10) + (horasExtras * 5);
+        
+        return valorTotal;
+    }
+}
